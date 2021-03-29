@@ -5,7 +5,7 @@ const {BrowserWindow} = require("electron");
 
 
 let notificationWindow = new BrowserWindow({
-    //show :false,
+    show :false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
