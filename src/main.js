@@ -47,7 +47,7 @@ function createWindow() {
   //by default mainwindow will show in the center of the screen 
   //we want to show the screen in the  corner of the screen
 
-  const yPosition = process.platform === "darwin" ? y : y-height;
+  const yPosition = process.platform !== "win32"  ? y : y-height;
   notificationWindow.setBounds({
       x: x - width/2,
       y : yPosition,
