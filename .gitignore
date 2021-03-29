@@ -1,0 +1,6 @@
+/node_modules
+/dist
+/bot-win32-x64
+/bot-darwin-x64
+/bot-linux-x64
+/bot-mas-x64

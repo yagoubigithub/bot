@@ -1,0 +1,58 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "build": {
+    "appId": "com.bot",
+    "directories": {
+      "buildResources": "src"
+    },
+    "files": [
+      "./src/main.js",
+      "./src/mainWindow.js",
+      "./src/index.html",
+      "./src/notificationWindow.js",
+      "./src/notification.html",
+      "./src/style.css",
+      "./src/package.json",
+      {
+        "from": "img",
+        "to": "img",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "../img/1-4. logo-icon.png"
+    },
+    "mac": {
+      "icon": "../img/1-4. logo-icon.png"
+    },
+    "linux": {
+      "icon": "../img/1-4. logo-icon.png"
+    },
+    "productName": "bot",
+    "copyright": "Kazuki Matsumoto"
+  },
+  "main": "src/main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron ./src",
+    "electron-build": "electron-builder",
+    "build": "npm run  electron-build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5",
+    "electron-packager": "^15.2.0"
+  },
+  "dependencies": {
+    "auto-launch": "^5.0.5",
+    "electron-is-dev": "^2.0.0"
+  }
+}

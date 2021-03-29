@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+
+    <style>
+
+html, body,h1,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: white;
+}
+.container{
+    display: grid;
+  grid-template-columns: 1fr 3fr;
+  height: 100vh;
+    
+}
+.col-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.col-2{
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 15px;;
+}
+.col-1 .logo{
+    border : 1px solid rgba(0,0,0,0.2);
+    border-radius: 50%;
+   
+    width: 100px;
+    height: 100px;
+    background-image: url("../img/1-4. logo-icon.png");
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+.close-btn{
+    float: right;
+    border:0;
+    background-color: transparent;
+    cursor: pointer;
+    height : 20px;
+    width: 20px;
+    border-radius: 100%;
+    margin-right: 20px;
+    outline: none;
+   
+}
+.close-btn:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+h3{
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.334;
+    letter-spacing: 0em;
+}
+.btn {
+    background-color: #008CBA; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;;
+}
+    </style>
+</head>
+
+
+<body>
+    <header>
+
+        <button class="close-btn" onclick="hide()">x</button>
+    </header>
+    <div class="container">
+        <div class="col-1">
+           <div class="logo"></div>
+
+        </div>
+        <div class="col-2">
+
+            <h3>New Message
+            </h3>
+            
+            <button  class="btn" onclick="showMainWindow()">Read more &#8594;</button>
+        </div>
+
+    </div>
+    <script>
+        var electron = window.require("electron");
+    var {ipcRenderer}  = electron;
+
+    
+    function hide(){
+        
+        ipcRenderer.send("hide-notification-window", {});
+    }
+    function showMainWindow (){
+        ipcRenderer.send("show-main-window", {});
+    }
+    </script>
+</body>
+</html>
