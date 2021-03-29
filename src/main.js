@@ -1,5 +1,5 @@
 // アプリケーション作成用のモジュールを読み込み
-const { app, BrowserWindow, Tray, ipcMain } = require("electron");
+const { app, BrowserWindow, Tray, ipcMain ,Menu} = require("electron");
 
 const AutoLaunch = require("auto-launch");
 
@@ -78,6 +78,20 @@ function createWindow() {
       mainWindow.show();
     }
   });
+  tray.on("right-click", () => {
+    const template = [
+      {
+        label: 'Show main window',
+        click: () => { mainWindow.show() }
+      },
+      { type: 'separator' },
+      { label: 'Quit', click: () => {app.quit(); }}
+    ]
+    const contextMenu = Menu.buildFromTemplate(template)
+    tray.setContextMenu(contextMenu)
+  });
+
+
 
   // メインウィンドウに表示するURLを指定します
   // （今回はmain.jsと同じディレクトリのindex.html）
