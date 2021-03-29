@@ -20,7 +20,7 @@ let notificationWindow = new BrowserWindow({
   });
 
   try {
-    const loadPath = process.platform === 'win32' ?  `file://${path.join(__dirname, "./notification.html")}` :
+    const loadPath = process.platform === 'win32' ?  `${path.join(__dirname, "./notification.html")}` :
      `${path.join(__dirname, "./notification.html")}`;
     // and load the index.html of the app.
     notificationWindow.loadFile(
