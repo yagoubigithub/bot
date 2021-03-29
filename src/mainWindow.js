@@ -23,11 +23,13 @@ let mainWindow = new BrowserWindow({
   icon: `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
 });
 
+const loadPath = process.platform === 'win32' ?  `file://${path.join(__dirname, "./index.html")}` :
+`${path.join(__dirname, "./index.html")}`;
 mainWindow.loadURL(
   isDev
       ? "index.html"
       :
-  `file://${path.join(__dirname, "./index.html")}`
+  loadPath
 );
 
 

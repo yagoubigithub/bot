@@ -5,7 +5,7 @@ const {BrowserWindow} = require("electron");
 
 
 let notificationWindow = new BrowserWindow({
-    show :false,
+    //show :false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -20,12 +20,14 @@ let notificationWindow = new BrowserWindow({
   });
 
   try {
+    const loadPath = process.platform === 'win32' ?  `file://${path.join(__dirname, "./notification.html")}` :
+     `${path.join(__dirname, "./notification.html")}`;
     // and load the index.html of the app.
     notificationWindow.loadFile(
       isDev
       ? "notification.html"
       :
-    `file://${path.join(__dirname, "./notification.html")}`
+   loadPath
      );
   } catch (e) {
     console.log("Exception caught in 'createWindow': " + e.message);
@@ -36,7 +38,6 @@ let notificationWindow = new BrowserWindow({
  
   notificationWindow.webContents.on("did-fail-load", function(e) {
     console.log("did-fail-load",e);
-
 
   })
  /*
