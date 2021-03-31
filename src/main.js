@@ -1,15 +1,17 @@
 // アプリケーション作成用のモジュールを読み込み
 const { app, BrowserWindow, Tray, ipcMain ,Menu} = require("electron");
-const Alert = require("electron-alert");
+
 const AutoLaunch = require("auto-launch");
 const isDev = require("electron-is-dev");
 const path = require("path");
+
 
 // メインウィンドウ
 let mainWindow, tray, notificationWindow;
 try {
 
 function createWindow() {
+  
   // メインウィンドウを作成します
   mainWindow =   require(`${path.join(__dirname,"./mainWindow" )}`)
   /*
@@ -26,29 +28,33 @@ function createWindow() {
 */
   notificationWindow =  require(`${path.join(__dirname,"./notificationWindow" )}`)
 
-  let autoLaunch = new AutoLaunch({
-    name: "Bot",
-    path:
-      process.platform === "win32"
-        ? app.getPath("exe")
-        : "/Applications/Bot.app",
-  });
-  autoLaunch.isEnabled().then((isEnabled) => {
-    if (!isEnabled) autoLaunch.enable();
-  });
+  if(!isDev){
+    let autoLaunch = new AutoLaunch({
+      name: "Bot",
+      path:
+        process.platform === "win32"
+          ? app.getPath("exe")
+          : "/Applications/Bot.app",
+    });
+    autoLaunch.isEnabled().then((isEnabled) => {
+      if (!isEnabled) autoLaunch.enable();
+    });
+  }
+ 
 
   //set the icon tray for windows and mac
   //for mac should have 2 icons one 16x16 and other 32X32
 
   const iconName =
     process.platform === "win32" ? "windows-icon.png" : "iconTemplate.png";
-    const iconPath = isDev ? path.join(__dirname, `../img/${iconName}`) : path.join(__dirname, `./img/${iconName}`);
+    const iconPath = isDev ? path.join(__dirname, `../img/${iconName}`) : path.join(__dirname, `../img/${iconName}`);
 
   //initial the tray
   tray = new Tray(iconPath);
 
   //get the tray position in the screen
   const { x, y } = tray.getBounds();
+ 
 
   //get the width and the height of the mainWindow
   const { width, height } = notificationWindow.getBounds();
@@ -57,7 +63,7 @@ function createWindow() {
   //by default mainwindow will show in the center of the screen
   //we want to show the screen in the  corner of the screen
 
-  const yPosition = process.platform !== "win32" ? y : y - height;
+  const yPosition = process.platform === "darwin" ? y : y - height;
   notificationWindow.setBounds({
     x: x - width / 2,
     y: yPosition,
@@ -74,6 +80,7 @@ function createWindow() {
   //this click event for tray icon
   //if the mainwindow open we will hide it if no we will show it
   tray.on("click", () => {
+    
     if (mainWindow.isVisible()) {
       mainWindow.hide();
     } else {
@@ -142,11 +149,13 @@ app.on("activate", () => {
   // メインウィンドウが消えている場合は再度メインウィンドウを作成する
   if (mainWindow === null) {
     createWindow();
+
   }
 });
 
 // when the user recive a message event handler
 ipcMain.on("new_message", (event, value) => {
+
   if (!mainWindow.isVisible() || mainWindow.isMinimized()) {
     if (notificationWindow) {
       //app.setBadgeCount(5);
@@ -185,16 +194,8 @@ ipcMain.on("show-main-window", (event, value) => {
 } catch (error) {
   
 
-  let alert = new Alert();
-  
-  let swalOptions = {
-    title: "error",
-    text:   error,
-    type: "warning",
-    showCancelButton: true
-  };
-  
-  alert.fireFrameless(swalOptions, null, true, false);
+
+ 
       
   }
   

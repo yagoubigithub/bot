@@ -30,7 +30,7 @@ const loadPath = process.platform === 'win32' ?  `file://${path.join(__dirname, 
 `${path.join(__dirname, "./index.html")}`;
 mainWindow.loadURL(
   isDev
-      ? "index.html"
+      ? `${path.join(__dirname, "./index.html")}`
       :
   loadPath
 );
