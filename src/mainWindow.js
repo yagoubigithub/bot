@@ -1,5 +1,6 @@
 
 const path =  require('path')
+const fs = require("fs");
 const isDev = require("electron-is-dev");
 
 const { BrowserWindow, app } = require("electron");
@@ -9,7 +10,7 @@ const { BrowserWindow, app } = require("electron");
 
 
 let mainWindow = new BrowserWindow({
-   // show :false,
+    show :false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -19,8 +20,10 @@ let mainWindow = new BrowserWindow({
    width : 900,
    height : 730,
    resizable :false,
-   frame : false,
-  icon: `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
+   //frame : false,
+   icon: isDev
+    ? `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
+    : `${path.join(__dirname, "./img/1-4. logo-icon.png")}`,
 });
 
 const loadPath = process.platform === 'win32' ?  `file://${path.join(__dirname, "./index.html")}` :
@@ -34,7 +37,7 @@ mainWindow.loadURL(
 
 
 mainWindow.on('focus', () => {
-  new_messages = require("./newMessages");
+  new_messages =  require(`${path.join(__dirname,"./newMessages" )}`)
   new_messages = [];
   console.log(new_messages);
   app.setBadgeCount(new_messages.length);
@@ -50,7 +53,23 @@ app.on('window-all-closed', function() {
 })
 
  
- 
+if (
+  !fs.existsSync(isDev ? "start.txt" : path.join(__dirname, "../../start.txt"))
+) {
+  mainWindow.show();
+  try {
+    fs.writeFileSync(
+      isDev ? "start.txt" : path.join(__dirname, "../../start.txt"),
+      new Date().getTime().toString(),
+      "utf-8"
+    );
+  } catch (e) {
+    
+  }
+} else {
+  mainWindow.hide();
+}
+
 
   
 

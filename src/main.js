@@ -1,16 +1,17 @@
 // アプリケーション作成用のモジュールを読み込み
 const { app, BrowserWindow, Tray, ipcMain ,Menu} = require("electron");
-
+const Alert = require("electron-alert");
 const AutoLaunch = require("auto-launch");
-
+const isDev = require("electron-is-dev");
 const path = require("path");
 
 // メインウィンドウ
 let mainWindow, tray, notificationWindow;
+try {
 
 function createWindow() {
   // メインウィンドウを作成します
-  mainWindow = require("./mainWindow");
+  mainWindow =   require(`${path.join(__dirname,"./mainWindow" )}`)
   /*
   mainWindow = new BrowserWindow({
     webPreferences: {
@@ -23,8 +24,7 @@ function createWindow() {
     icon: `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
   });
 */
-
-  notificationWindow = require("./notificationWindow");
+  notificationWindow =  require(`${path.join(__dirname,"./notificationWindow" )}`)
 
   let autoLaunch = new AutoLaunch({
     name: "Bot",
@@ -42,7 +42,7 @@ function createWindow() {
 
   const iconName =
     process.platform === "win32" ? "windows-icon.png" : "iconTemplate.png";
-  const iconPath = path.join(__dirname, `../img/${iconName}`);
+    const iconPath = isDev ? path.join(__dirname, `../img/${iconName}`) : path.join(__dirname, `./img/${iconName}`);
 
   //initial the tray
   tray = new Tray(iconPath);
@@ -64,6 +64,8 @@ function createWindow() {
     width,
     height,
   });
+
+ 
 
   //this toolTip is for when you hover the tray icon will show the title
   //I just take the title from index.html
@@ -95,7 +97,7 @@ function createWindow() {
 
   // メインウィンドウに表示するURLを指定します
   // （今回はmain.jsと同じディレクトリのindex.html）
-  mainWindow.loadFile("index.html");
+  //mainWindow.loadFile("index.html");
 
   // // デベロッパーツールの起動
   //mainWindow.webContents.openDevTools();
@@ -180,3 +182,19 @@ ipcMain.on("show-main-window", (event, value) => {
     mainWindow.show();
   }
 });
+} catch (error) {
+  
+
+  let alert = new Alert();
+  
+  let swalOptions = {
+    title: "error",
+    text:   error,
+    type: "warning",
+    showCancelButton: true
+  };
+  
+  alert.fireFrameless(swalOptions, null, true, false);
+      
+  }
+  

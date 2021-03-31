@@ -36,7 +36,7 @@
 </body>
 <script SameSite="None; Secure" src="https://static.landbot.io/landbot-3/landbot-3.0.0.js"></script>
 <script>
-  new_messages = window.require("./newMessages");
+  new_messages = "./newMessages"
   var electron = window.require("electron");
   var { ipcRenderer } = electron;
   const app = window.require('electron').remote.app
@@ -61,7 +61,7 @@
       // send the message to electron window
       ipcRenderer.send("new_message", { ...data });
 
-      
+     
       if(data.ui_key){
         new_messages = []
       }else{

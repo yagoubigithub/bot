@@ -16,6 +16,7 @@
       "./src/notification.html",
       "./src/style.css",
       "./src/package.json",
+      "./src/newMessages.js",
       {
         "from": "img",
         "to": "img",
@@ -53,6 +54,7 @@
   },
   "dependencies": {
     "auto-launch": "^5.0.5",
+    "electron-alert": "^0.1.11",
     "electron-is-dev": "^2.0.0"
   }
 }

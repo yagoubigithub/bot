@@ -16,7 +16,9 @@ let notificationWindow = new BrowserWindow({
     height : 200,
    width : 400,
    frame : false,
-  icon: `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
+   icon: isDev
+   ? `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
+   : `${path.join(__dirname, "./img/1-4. logo-icon.png")}`,
   });
 
   try {
