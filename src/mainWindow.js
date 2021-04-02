@@ -17,7 +17,7 @@ if(process.platform == 'darwin'){
 }
 
 let mainWindow = new BrowserWindow({
-    show :false,
+    //show :false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -28,7 +28,8 @@ let mainWindow = new BrowserWindow({
    height : 730,
    //resizable :false,
    //frame : false,
-   icon:logoPath
+   icon:logoPath,
+   
    
 });
 
@@ -66,9 +67,11 @@ app.on('window-all-closed', function() {
       app.quit();
 })
 
- 
+ if(isDev){
+mainWindow.show();
+ }else{
 if (
-  !fs.existsSync(isDev ? "start.txt" : path.join(__dirname, "../../start.txt"))
+  !fs.existsSync(path.join(__dirname, "../../start.txt"))
 ) {
   mainWindow.show();
   try {
@@ -83,6 +86,8 @@ if (
 } else {
   mainWindow.hide();
 }
+
+ }
 
 
   
