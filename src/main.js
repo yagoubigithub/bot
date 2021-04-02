@@ -14,6 +14,7 @@ function createWindow() {
   
   // メインウィンドウを作成します
   mainWindow =   require(`${path.join(__dirname,"./mainWindow" )}`)
+  console.log(mainWindow)
   /*
   mainWindow = new BrowserWindow({
     webPreferences: {
@@ -55,6 +56,7 @@ function createWindow() {
   //get the tray position in the screen
   const { x, y } = tray.getBounds();
  
+  console.log(x,y)
 
   //get the width and the height of the mainWindow
   const { width, height } = notificationWindow.getBounds();
@@ -81,6 +83,7 @@ function createWindow() {
   //if the mainwindow open we will hide it if no we will show it
   tray.on("click", () => {
     
+    //notificationWindow.show()
     if (mainWindow.isVisible()) {
       mainWindow.hide();
     } else {
@@ -193,7 +196,7 @@ ipcMain.on("show-main-window", (event, value) => {
 });
 } catch (error) {
   
-
+console.log(error)
 
  
       

@@ -6,8 +6,15 @@ const isDev = require("electron-is-dev");
 const { BrowserWindow, app } = require("electron");
 
 
+let logoPath =  isDev
+? `${path.join(__dirname, "./img/1-4. logo-icon.png")}`
+: `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
 
-
+if(process.platform == 'darwin'){
+  
+  logoPath = `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
+  //console.log(isDev,fs.existsSync(`${path.join(__dirname, "../img/1-4. logo-icon.png")}`))
+}
 
 let mainWindow = new BrowserWindow({
     show :false,
@@ -19,18 +26,25 @@ let mainWindow = new BrowserWindow({
     },
    width : 900,
    height : 730,
-   resizable :false,
+   //resizable :false,
    //frame : false,
-   icon: isDev
-    ? `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
-    : `${path.join(__dirname, "./img/1-4. logo-icon.png")}`,
+   icon:logoPath
+   
 });
 
-const loadPath = process.platform === 'win32' ?  `file://${path.join(__dirname, "./index.html")}` :
+const loadPath = process.platform === 'win32' ?  
+`file://${path.join(__dirname, "./index.html")}` :
 `${path.join(__dirname, "./index.html")}`;
-mainWindow.loadURL(
+
+console.log(fs.existsSync(`${path.join(__dirname, "./index.html")}`))
+
+const loadDevPath = process.platform = "darwin"? 
+`${path.join(__dirname, "./index.html")}`: `${path.join(__dirname, "./index.html")}`
+
+console.log(loadDevPath,loadPath)
+mainWindow.loadFile(
   isDev
-      ? `${path.join(__dirname, "./index.html")}`
+      ? loadDevPath
       :
   loadPath
 );
