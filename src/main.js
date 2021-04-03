@@ -170,6 +170,9 @@ ipcMain.on("new_message", (event, value) => {
 
 ipcMain.on("hide-window", (event, value) => {
   if (mainWindow) {
+    if(process.platform == "darwin"){
+      mainWindow.minimize()
+    }else
     mainWindow.hide();
   }
 });
