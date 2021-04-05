@@ -1,7 +1,7 @@
 // アプリケーション作成用のモジュールを読み込み
 const { app, BrowserWindow, Tray, ipcMain ,Menu} = require("electron");
 
-const AutoLaunch = require("auto-launch");
+//const AutoLaunch = require("auto-launch");
 const isDev = require("electron-is-dev");
 const path = require("path");
 
@@ -14,7 +14,7 @@ function createWindow() {
   
   // メインウィンドウを作成します
   mainWindow =   require(`${path.join(__dirname,"./mainWindow" )}`)
-  console.log(mainWindow)
+ // console.log(mainWindow)
   /*
   mainWindow = new BrowserWindow({
     webPreferences: {
@@ -30,17 +30,35 @@ function createWindow() {
   notificationWindow =  require(`${path.join(__dirname,"./notificationWindow" )}`)
 
   if(!isDev){
-    let autoLaunch = new AutoLaunch({
-      name: "Bot",
-      path:
-        process.platform === "win32"
-          ? app.getPath("exe")
-          : "/Applications/Bot.app",
-    });
-    autoLaunch.isEnabled().then((isEnabled) => {
-      if (!isEnabled) autoLaunch.enable();
-    });
+    
+    const launchAtStartup = require("./autoLaunch")
+    const  WasOpenedAtLogin= require("./autoLaunch")
+
+    launchAtStartup()
+    
+    if(WasOpenedAtLogin()){
+      mainWindow.hide()
+    }
+    
+    
+
+    
   }
+
+  let forceQuit = false
+
+
+
+  mainWindow.on('close', (e) => {
+    if (!forceQuit) {
+      e.preventDefault()
+      mainWindow.hide()
+      return
+  
+    }
+    app.quit()
+  })
+
  
 
   //set the icon tray for windows and mac
@@ -56,7 +74,7 @@ function createWindow() {
   //get the tray position in the screen
   const { x, y } = tray.getBounds();
  
-  console.log(x,y)
+  //console.log(x,y)
 
   //get the width and the height of the mainWindow
   const { width, height } = notificationWindow.getBounds();
@@ -97,7 +115,7 @@ function createWindow() {
         click: () => { mainWindow.show() }
       },
       { type: 'separator' },
-      { label: 'Quit', click: () => {app.quit(); }}
+      { label: 'Quit', click: () => {forceQuit = true;  app.quit() ;}}
     ]
     const contextMenu = Menu.buildFromTemplate(template)
     tray.setContextMenu(contextMenu)
@@ -121,6 +139,7 @@ function createWindow() {
   // メインウィンドウが閉じられたときの処理
   mainWindow.on("closed", () => {
     mainWindow = null;
+    notificationWindow = null
   });
 }
 
@@ -153,7 +172,9 @@ app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
 
-  }
+  }else
+  mainWindow.show()
+
 });
 
 // when the user recive a message event handler

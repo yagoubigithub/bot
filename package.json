@@ -11,6 +11,7 @@
     "files": [
       "./src/main.js",
       "./src/mainWindow.js",
+      "./src/autoLaunch.js",
       "./src/index.html",
       "./src/notificationWindow.js",
       "./src/notification.html",
