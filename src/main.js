@@ -1,9 +1,12 @@
 // アプリケーション作成用のモジュールを読み込み
-const { app, BrowserWindow, Tray, ipcMain ,Menu} = require("electron");
+const { app, Tray, ipcMain ,Menu} = require("electron");
 
-//const AutoLaunch = require("auto-launch");
 const isDev = require("electron-is-dev");
 const path = require("path");
+
+
+const launchAtStartup = require("./autoLaunch")
+const  WasOpenedAtLogin= require("./autoLaunch")
 
 
 // メインウィンドウ
@@ -14,26 +17,13 @@ function createWindow() {
   
   // メインウィンドウを作成します
   mainWindow =   require(`${path.join(__dirname,"./mainWindow" )}`)
- // console.log(mainWindow)
-  /*
-  mainWindow = new BrowserWindow({
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-    //frame : false,
-   // transparent:true,
-    width: 420, height: 600,
-    icon: `${path.join(__dirname, "../img/1-4. logo-icon.png")}`
-  });
-*/
+ 
+ 
   notificationWindow =  require(`${path.join(__dirname,"./notificationWindow" )}`)
 
   if(!isDev){
     
-    const launchAtStartup = require("./autoLaunch")
-    const  WasOpenedAtLogin= require("./autoLaunch")
-
+   
     launchAtStartup()
     
     if(WasOpenedAtLogin()){
@@ -66,7 +56,7 @@ function createWindow() {
 
   const iconName =
     process.platform === "win32" ? "windows-icon.png" : "iconTemplate.png";
-    const iconPath = isDev ? path.join(__dirname, `../img/${iconName}`) : path.join(__dirname, `../img/${iconName}`);
+    const iconPath  = path.join(__dirname, `../img/${iconName}`);
 
   //initial the tray
   tray = new Tray(iconPath);
@@ -220,7 +210,7 @@ ipcMain.on("show-main-window", (event, value) => {
 });
 } catch (error) {
   
-console.log(error)
+    console.log(error)
 
  
       

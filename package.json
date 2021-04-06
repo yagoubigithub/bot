@@ -12,6 +12,7 @@
       "./src/main.js",
       "./src/mainWindow.js",
       "./src/autoLaunch.js",
+      "./src/message.js",
       "./src/index.html",
       "./src/notificationWindow.js",
       "./src/notification.html",
