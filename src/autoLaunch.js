@@ -7,9 +7,6 @@ const exeName = path.basename(process.execPath);
 
 function WasOpenedAtLogin() {
  
-const showMessage = require("./message")
-showMessage(app.commandLine.hasSwitch("hidden").toString())
-
   try {
     if (process.platform == "darwin") {
       let loginSettings = app.getLoginItemSettings();
