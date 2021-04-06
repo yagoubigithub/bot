@@ -43,6 +43,11 @@ function createWindow() {
 
   //hide the whindow when the user click the close button
   // if he click in the "quit" try menu item will force the quit
+  if(process.platform == "darwin"){
+    app.on("before-quit", ()=>{
+      forceQuit = true;
+    })
+  }
   mainWindow.on('close', (e) => {
     if (!forceQuit) {
       e.preventDefault()
