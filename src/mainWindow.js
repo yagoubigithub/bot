@@ -36,9 +36,6 @@ const loadPath = process.platform === 'win32' ?
   `file://${path.join(__dirname, "./index.html")}` :
   `${path.join(__dirname, "./index.html")}`;
 
-const showMessage = require("./message")
-showMessage(fs.existsSync(`${path.join(__dirname, "./index.html")}`).toString())
-
 //console.log(fs.existsSync(`${path.join(__dirname, "./index.html")}`))
 
 const loadDevPath =   `${path.join(__dirname, "./index.html")}`

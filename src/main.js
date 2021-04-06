@@ -21,7 +21,7 @@ function createWindow() {
  
   notificationWindow =  require(`${path.join(__dirname,"./notificationWindow" )}`)
 
-  if(!isDev){
+  if(isDev){
     
    
     launchAtStartup()

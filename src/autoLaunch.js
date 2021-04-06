@@ -6,11 +6,16 @@ const updateExe = path.resolve(appFolder, "..", "Update.exe");
 const exeName = path.basename(process.execPath);
 
 function WasOpenedAtLogin() {
+ 
+const showMessage = require("./message")
+showMessage(app.commandLine.hasSwitch("hidden").toString())
+
   try {
     if (process.platform == "darwin") {
       let loginSettings = app.getLoginItemSettings();
       return loginSettings.wasOpenedAtLogin;
     }
+    
     return app.commandLine.hasSwitch("hidden");
   } catch {
     return false;
@@ -26,7 +31,6 @@ function launchAtStartup() {
   } else {
     app.setLoginItemSettings({
       openAtLogin: true,
-      openAsHidden: true,
       path: updateExe,
       args: [
         "--processStart",
