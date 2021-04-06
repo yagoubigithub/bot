@@ -32,6 +32,7 @@ function launchAtStartup() {
   } else {
     app.setLoginItemSettings({
       openAtLogin: true,
+      openAsHidden: true,
       path: updateExe,
       args: [
         "--processStart",
