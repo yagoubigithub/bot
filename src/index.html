@@ -21,32 +21,33 @@
 
 
       <h1 class="title">MENTERサポートチャット</h1>
-      <!--
-
-         <button onclick="hide()" class="btn-hide">
-        <img src="./../img/close-icon.png">
-      </button>
-      <button onclick="minimize()" class="btn-hide">
-        <img src="./../img/minimize-icon.png">
-      </button>
-      -->
+      
      
     </nav>
 
   </header>
 
 
+  <!--The container of the bot-->
+
   <div id="bot-container">
 
   </div>
+
+
 </body>
 <script SameSite="None; Secure" src="https://static.landbot.io/landbot-3/landbot-3.0.0.js"></script>
 <script>
+  //new_message array will push any new messages
   new_messages = window.require("./newMessages")
+
   var electron = window.require("electron");
   var { ipcRenderer } = electron;
   const app = window.require('electron').remote.app
 
+
+
+  //landboot object don't forget to change the configUrl
 
   var myLandbot = new Landbot.Container({
     configUrl: 'https://chats.landbot.io/v3/H-866465-1K673ZALNHU9N4YX/index.json',
@@ -71,10 +72,10 @@
       if(data.ui_key){
         new_messages = []
       }else{
-        console.log(new_messages)
         new_messages.push(data)
       }
      
+      //set the number of the new messages to the app icon
       app.setBadgeCount(new_messages.length);
 
 
@@ -88,9 +89,10 @@
     myLandbot.core.events.on('init', function () {
 
       myLandbot.core
-        .getLastMessages(5) // Get last 5 messages
+        .getLastMessages(5) // Get last 5 messages you can change the number
         .then(function (data) {
-          console.log(data)
+
+         // test if the user replay to this messages or not
           const keys = Object.keys(data)
           let unreadmessages = []
           for (let i = 0; i < keys.length; i++) {
@@ -113,7 +115,6 @@
 
           new_messages  = unreadmessages;
           app.setBadgeCount(new_messages.length);
-          console.log(unreadmessages);
         });
      
 
@@ -126,18 +127,6 @@
 
 
 
-  //send event to mainwindow to hide it
-/*
-  function hide() {
-
-    ipcRenderer.send("hide-window", {});
-
-  }
-  function minimize(){
-    ipcRenderer.send("minimize-window", {});
-  }
-
-  */
 
   
 </script>

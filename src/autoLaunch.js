@@ -5,6 +5,8 @@ const appFolder = path.dirname(process.execPath);
 const updateExe = path.resolve(appFolder, "..", "Update.exe");
 const exeName = path.basename(process.execPath);
 
+
+//test if the app lunched by the system (auto-lunch) or the user 
 function WasOpenedAtLogin() {
  
   try {
@@ -18,6 +20,8 @@ function WasOpenedAtLogin() {
     return false;
   }
 }
+
+//set the app to lunch after the user turn on his computer
 
 function launchAtStartup() {
   if (process.platform === "darwin") {

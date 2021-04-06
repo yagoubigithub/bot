@@ -22,10 +22,12 @@ function createWindow() {
   notificationWindow =  require(`${path.join(__dirname,"./notificationWindow" )}`)
 
   if(isDev){
-    
-   
+
+    //auto lunch when the user turn on his computer
     launchAtStartup()
     
+
+    //test if the app start after the user turn on his computer
     if(WasOpenedAtLogin()){
       mainWindow.hide()
     }
@@ -35,10 +37,12 @@ function createWindow() {
     
   }
 
+
+
   let forceQuit = false
 
-
-
+  //hide the whindow when the user click the close button
+  // if he click in the "quit" try menu item will force the quit
   mainWindow.on('close', (e) => {
     if (!forceQuit) {
       e.preventDefault()
@@ -133,22 +137,28 @@ function createWindow() {
   });
 }
 
+
+ // Someone tried to run a second instance, we should focus our window.
 const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
   app.quit();
 } else {
   app.on("second-instance", (event, commandLine, workingDirectory) => {
-    // Someone tried to run a second instance, we should focus our window.
+   
     if (mainWindow) {
       mainWindow.show();
       if (mainWindow.isMinimized()) mainWindow.restore();
       mainWindow.focus();
     }
   });
+
+
   //  初期化が完了した時の処理
   app.on("ready", createWindow);
 }
+
+
 // 全てのウィンドウが閉じたときの処理
 app.on("window-all-closed", () => {
   // macOSのとき以外はアプリケーションを終了させます
@@ -156,6 +166,8 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+
 // アプリケーションがアクティブになった時の処理(Macだと、Dockがクリックされた時）
 app.on("activate", () => {
   // メインウィンドウが消えている場合は再度メインウィンドウを作成する
@@ -167,34 +179,20 @@ app.on("activate", () => {
 
 });
 
-// when the user recive a message event handler
+// when the user recive a message , new_message event handler
 ipcMain.on("new_message", (event, value) => {
 
   if (!mainWindow.isVisible() || mainWindow.isMinimized()) {
     if (notificationWindow) {
-      //app.setBadgeCount(5);
       notificationWindow.webContents.send("new_message", { data: value });
       notificationWindow.show();
     }
   }
 });
 
-ipcMain.on("hide-window", (event, value) => {
-  if (mainWindow) {
-    if(process.platform == "darwin"){
-      mainWindow.minimize()
-    }else
-    mainWindow.hide();
-  }
-});
 
-//minimize-window
-ipcMain.on("minimize-window", (event, value) => {
-  if (mainWindow) {
-    mainWindow.minimize();
-  }
-});
 
+//hide the notification window
 ipcMain.on("hide-notification-window", (event, value) => {
   if (notificationWindow) {
     notificationWindow.hide();
@@ -208,6 +206,8 @@ ipcMain.on("show-main-window", (event, value) => {
     mainWindow.show();
   }
 });
+
+//catch errors
 } catch (error) {
   
     console.log(error)

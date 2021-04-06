@@ -1,6 +1,6 @@
 
 const path = require('path')
-const fs = require("fs");
+
 const isDev = require("electron-is-dev");
 
 const { BrowserWindow, app } = require("electron");
@@ -17,7 +17,6 @@ if (process.platform == 'darwin') {
 */
 
 let mainWindow = new BrowserWindow({
-  //show :false,
   webPreferences: {
     nodeIntegration: true,
     contextIsolation: false,
@@ -26,7 +25,6 @@ let mainWindow = new BrowserWindow({
   },
   width: 900,
   height: 730,
-  //resizable :false,
   icon: logoPath,
 
 
@@ -36,11 +34,10 @@ const loadPath = process.platform === 'win32' ?
   `file://${path.join(__dirname, "./index.html")}` :
   `${path.join(__dirname, "./index.html")}`;
 
-//console.log(fs.existsSync(`${path.join(__dirname, "./index.html")}`))
 
 const loadDevPath =   `${path.join(__dirname, "./index.html")}`
 
-//console.log(loadDevPath,loadPath)
+
 if(process.platform === "win32"){
   mainWindow.loadURL(
     isDev
